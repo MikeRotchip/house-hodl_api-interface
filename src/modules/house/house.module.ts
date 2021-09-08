@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { HouseController } from './controllers';
+import { ExpenseController, HouseController } from './controllers';
 import { AuthenticationModule } from '../authentication/authentication.module';
 
 @Module({
   imports: [AuthenticationModule],
-  controllers: [HouseController],
+  controllers: [ExpenseController, HouseController],
 })
 export class HouseModule {}

@@ -1,1 +1,1 @@
-export { Event } from './events.enum';
+export { KafkaTopic } from './kafka-topics.enum';
