@@ -4,4 +4,5 @@ export enum KafkaTopic {
   INVITATION_CREATION_REQUEST = 'InvitationCodeCreationRequested',
   EXPENSE_CREATE = 'ExpenseCreationRequested',
   EXPENSE_CREATED = 'ExpenseCreated',
+  EXPENSE_EDIT = 'ExpenseEditRequested',
 }

@@ -22,7 +22,8 @@ export class AccountController implements OnModuleInit {
   private accountService: AccountService;
 
   constructor(
-    @Inject('ACCOUNT_PACKAGE') private client: ClientGrpc,
+    @Inject('ACCOUNT_PACKAGE')
+    private client: ClientGrpc,
     private metadata: GrpcMetadataUtil,
   ) {}
 
