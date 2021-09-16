@@ -49,6 +49,10 @@ class ConfigService {
   public getJwtSecret(): string {
     return this.getValue('JWT_SECRET');
   }
+
+  public getKafkaUrl(): string {
+    return this.getValue('KAFKA_URL', false) ?? 'localhost:9092';
+  }
 }
 
 const configService = new ConfigService(process.env);
