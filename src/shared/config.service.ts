@@ -27,6 +27,10 @@ class ConfigService {
     return this.getValue('MODE') === 'PROD';
   }
 
+  public getPort(): number {
+    return parseInt(this.getValue('PORT'));
+  }
+
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
       type: 'postgres',
@@ -59,6 +63,6 @@ class ConfigService {
   }
 }
 
-const configService = new ConfigService(process.env);
+const config = new ConfigService(process.env);
 
-export { configService };
+export { config };

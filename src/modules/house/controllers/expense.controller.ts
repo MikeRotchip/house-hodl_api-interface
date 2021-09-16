@@ -18,7 +18,7 @@ import { KafkaTopic } from '../enums';
 import { JwtAuthGuard } from '../../authentication/guards';
 import { IExpenseService } from '../interface';
 import { grpcConfig } from '../../../configs';
-import { configService } from '../../../shared/config.service';
+import { config } from '../../../shared/config.service';
 
 @Controller('expense')
 @UseGuards(JwtAuthGuard)
@@ -35,7 +35,7 @@ export class ExpenseController implements OnModuleInit {
     grpcConfig(
       ['expense'],
       ['src/modules/house/proto/expense.proto'],
-      configService.getHouseServiceUrl(),
+      config.getHouseServiceUrl(),
     ),
   )
   private grpc: ClientGrpc;

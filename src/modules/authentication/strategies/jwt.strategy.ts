@@ -4,7 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { AuthenticationService } from '../services';
 import { Auth } from '../entities';
-import { configService } from '../../../shared/config.service';
+import { config } from '../../../shared/config.service';
 import { JwtTokenType } from './jwt-token.type';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.getJwtSecret(),
+      secretOrKey: config.getJwtSecret(),
     });
   }
 
