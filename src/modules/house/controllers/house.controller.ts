@@ -1,10 +1,4 @@
-import {
-  Body,
-  Controller,
-  OnModuleInit,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { Client, ClientKafka } from '@nestjs/microservices';
 import { KafkaConfig } from '../../../configs/kafka-config';
 import { SecurityService } from '../../authentication/services';
@@ -20,14 +14,14 @@ export class HouseController {
   constructor(private kafkaMetadata: KafkaMetadataUtil) {}
 
   @Client(KafkaConfig)
-  private client: ClientKafka;
+  private kafka: ClientKafka;
 
   @Post('/')
   async createHouse(
     @Security() security: SecurityService,
     @Body() houseDto: HouseDto,
   ) {
-    await this.client.emit('HouseCreationRequested', {
+    await this.kafka.emit('HouseCreationRequested', {
       headers: this.kafkaMetadata.getUserAuthMetadata(security),
       value: houseDto,
     });
@@ -38,7 +32,7 @@ export class HouseController {
     @Security() security: SecurityService,
     @Body() invitationDto: InvitationCreateDto,
   ) {
-    await this.client.emit(KafkaTopic.INVITATION_CREATION_REQUEST, {
+    await this.kafka.emit(KafkaTopic.INVITATION_CREATION_REQUEST, {
       headers: this.kafkaMetadata.getUserAuthMetadata(security),
       value: invitationDto,
     });
@@ -49,7 +43,7 @@ export class HouseController {
     @Security() security: SecurityService,
     @Body() invitationDto: InvitationUseDto,
   ) {
-    await this.client.emit(KafkaTopic.INVITATION_USE_REQUEST, {
+    await this.kafka.emit(KafkaTopic.INVITATION_USE_REQUEST, {
       headers: this.kafkaMetadata.getUserAuthMetadata(security),
       value: invitationDto,
     });

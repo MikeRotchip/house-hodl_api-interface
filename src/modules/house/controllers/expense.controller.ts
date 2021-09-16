@@ -23,7 +23,7 @@ import { IExpenseService } from '../interface';
 @UseGuards(JwtAuthGuard)
 export class ExpenseController implements OnModuleInit {
   @Client(KafkaConfig)
-  private client: ClientKafka;
+  private kafka: ClientKafka;
 
   private expenseService: IExpenseService;
 
@@ -44,7 +44,7 @@ export class ExpenseController implements OnModuleInit {
     @Security() security: SecurityService,
     @Body() expenseCreateDto: ExpenseCreateDto,
   ) {
-    this.client.emit(KafkaTopic.EXPENSE_CREATE, {
+    this.kafka.emit(KafkaTopic.EXPENSE_CREATE, {
       headers: this.kafkaMetadata.getUserAuthMetadata(security),
       value: expenseCreateDto,
     });
@@ -56,7 +56,7 @@ export class ExpenseController implements OnModuleInit {
     @Body() expenseEditDto: ExpenseEditDto,
     @Param('expenseId') expenseId: number,
   ) {
-    this.client.emit(KafkaTopic.EXPENSE_EDIT, {
+    this.kafka.emit(KafkaTopic.EXPENSE_EDIT, {
       headers: this.kafkaMetadata.getUserAuthMetadata(security),
       value: { expenseId, ...expenseEditDto },
     });

@@ -23,13 +23,13 @@ export class AccountController implements OnModuleInit {
 
   constructor(
     @Inject('ACCOUNT_PACKAGE')
-    private client: ClientGrpc,
+    private grpc: ClientGrpc,
     private grpcMetadata: GrpcMetadataUtil,
   ) {}
 
   onModuleInit(): void {
     this.accountService =
-      this.client.getService<AccountService>('AccountService');
+      this.grpc.getService<AccountService>('AccountService');
   }
 
   @Get('/me')
