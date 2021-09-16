@@ -24,7 +24,7 @@ export class AccountController implements OnModuleInit {
   constructor(
     @Inject('ACCOUNT_PACKAGE')
     private client: ClientGrpc,
-    private metadata: GrpcMetadataUtil,
+    private grpcMetadata: GrpcMetadataUtil,
   ) {}
 
   onModuleInit(): void {
@@ -38,7 +38,7 @@ export class AccountController implements OnModuleInit {
   ): Promise<IAccount> {
     return this.accountService.accountByAuth(
       {},
-      await this.metadata.getUserAuthMetadata(security),
+      await this.grpcMetadata.getUserAuthMetadata(security),
     );
   }
 
@@ -49,7 +49,7 @@ export class AccountController implements OnModuleInit {
   ): Promise<IAccount> {
     return this.accountService.createAccount(
       accountDto,
-      await this.metadata.getUserAuthMetadata(security),
+      await this.grpcMetadata.getUserAuthMetadata(security),
     );
   }
 
@@ -60,7 +60,7 @@ export class AccountController implements OnModuleInit {
   ): Promise<IAccount> {
     return this.accountService.editAccount(
       accountDto,
-      await this.metadata.getUserAuthMetadata(security),
+      await this.grpcMetadata.getUserAuthMetadata(security),
     );
   }
 }

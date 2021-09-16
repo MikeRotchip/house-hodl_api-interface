@@ -31,7 +31,7 @@ export class ExpenseController implements OnModuleInit {
     @Inject('EXPENSE_PACKAGE')
     private grpc: ClientGrpc,
     private kafkaMetadata: KafkaMetadataUtil,
-    private grpcMetadataUtil: GrpcMetadataUtil,
+    private grpcMetadata: GrpcMetadataUtil,
   ) {}
 
   onModuleInit(): void {
@@ -69,7 +69,7 @@ export class ExpenseController implements OnModuleInit {
   ) {
     return this.expenseService.getMyExpenses(
       myExpensesDto,
-      await this.grpcMetadataUtil.getUserAuthMetadata(security),
+      await this.grpcMetadata.getUserAuthMetadata(security),
     );
   }
 }
