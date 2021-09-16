@@ -1,7 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { Client, ClientKafka } from '@nestjs/microservices';
 import { KafkaConfig } from '../../../configs';
-import { SecurityService } from '../../authentication/services';
+import { AuthService } from '../../authentication/services';
 import { HttpAuth } from '../../authentication/decorators';
 import { HouseDto, InvitationCreateDto, InvitationUseDto } from '../dto';
 import { KafkaMetadataUtil } from '../../authentication/util';
@@ -17,10 +17,7 @@ export class HouseController {
   private kafka: ClientKafka;
 
   @Post('/')
-  async createHouse(
-    @HttpAuth() auth: SecurityService,
-    @Body() houseDto: HouseDto,
-  ) {
+  async createHouse(@HttpAuth() auth: AuthService, @Body() houseDto: HouseDto) {
     await this.kafka.emit('HouseCreationRequested', {
       headers: this.kafkaMetadata.getUserAuthMetadata(auth),
       value: houseDto,
@@ -29,7 +26,7 @@ export class HouseController {
 
   @Post('/invitation')
   async createInvitation(
-    @HttpAuth() auth: SecurityService,
+    @HttpAuth() auth: AuthService,
     @Body() invitationDto: InvitationCreateDto,
   ) {
     await this.kafka.emit(KafkaTopic.INVITATION_CREATION_REQUEST, {
@@ -40,7 +37,7 @@ export class HouseController {
 
   @Post('/invitation/use')
   async useInvitation(
-    @HttpAuth() auth: SecurityService,
+    @HttpAuth() auth: AuthService,
     @Body() invitationDto: InvitationUseDto,
   ) {
     await this.kafka.emit(KafkaTopic.INVITATION_USE_REQUEST, {

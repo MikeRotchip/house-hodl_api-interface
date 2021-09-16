@@ -1,9 +1,9 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { SecurityService } from '../services';
+import { AuthService } from '../services';
 
 export const HttpAuth = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext): SecurityService => {
+  (data: unknown, ctx: ExecutionContext): AuthService => {
     const request = ctx.switchToHttp().getRequest();
-    return new SecurityService(request.user, request.headers.authorization);
+    return new AuthService(request.user, request.headers.authorization);
   },
 );

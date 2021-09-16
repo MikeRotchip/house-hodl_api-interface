@@ -14,7 +14,7 @@ import { AccountDto } from '../dto';
 import { JwtAuthGuard } from '../../authentication/guards';
 import { GrpcMetadataUtil } from '../../authentication/util';
 import { HttpAuth } from '../../authentication/decorators';
-import { SecurityService } from '../../authentication/services';
+import { AuthService } from '../../authentication/services';
 
 @Controller('account')
 @UseGuards(JwtAuthGuard)
@@ -33,7 +33,7 @@ export class AccountController implements OnModuleInit {
   }
 
   @Get('/me')
-  async accountByAuthId(@HttpAuth() auth: SecurityService): Promise<IAccount> {
+  async accountByAuthId(@HttpAuth() auth: AuthService): Promise<IAccount> {
     return this.accountService.accountByAuth(
       {},
       await this.grpcMetadata.getUserAuthMetadata(auth),
@@ -42,7 +42,7 @@ export class AccountController implements OnModuleInit {
 
   @Post('/')
   async createAccount(
-    @HttpAuth() auth: SecurityService,
+    @HttpAuth() auth: AuthService,
     @Body() accountDto: AccountDto,
   ): Promise<IAccount> {
     return this.accountService.createAccount(
@@ -53,7 +53,7 @@ export class AccountController implements OnModuleInit {
 
   @Put('/')
   async editAccount(
-    @HttpAuth() auth: SecurityService,
+    @HttpAuth() auth: AuthService,
     @Body() accountDto: AccountDto,
   ): Promise<IAccount> {
     return this.accountService.editAccount(

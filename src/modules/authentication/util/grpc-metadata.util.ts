@@ -1,6 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
-import { rolesUtil, SecurityService } from '../services';
+import { rolesUtil, AuthService } from '../services';
 import { AuthRole } from '../enums';
 import { Metadata } from '@grpc/grpc-js';
 
@@ -8,7 +8,7 @@ import { Metadata } from '@grpc/grpc-js';
 export class GrpcMetadataUtil {
   constructor(private jwtService: JwtService) {}
 
-  async getUserAuthMetadata(security: SecurityService): Promise<Metadata> {
+  async getUserAuthMetadata(security: AuthService): Promise<Metadata> {
     const metadata = new Metadata();
     metadata.set('authorization', security.getToken());
 

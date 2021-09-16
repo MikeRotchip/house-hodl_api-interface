@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { HttpAuth } from '../../authentication/decorators';
-import { SecurityService } from '../../authentication/services';
+import { AuthService } from '../../authentication/services';
 import { ExpenseCreateDto, ExpenseEditDto, MyExpensesDto } from '../dto';
 import { KafkaTopic } from '../enums';
 import { JwtAuthGuard } from '../../authentication/guards';
@@ -49,7 +49,7 @@ export class ExpenseController implements OnModuleInit {
 
   @Post('/')
   async createExpense(
-    @HttpAuth() auth: SecurityService,
+    @HttpAuth() auth: AuthService,
     @Body() expenseCreateDto: ExpenseCreateDto,
   ) {
     this.kafka.emit(KafkaTopic.EXPENSE_CREATE, {
@@ -60,7 +60,7 @@ export class ExpenseController implements OnModuleInit {
 
   @Put('/:expenseId')
   async editExpense(
-    @HttpAuth() auth: SecurityService,
+    @HttpAuth() auth: AuthService,
     @Body() expenseEditDto: ExpenseEditDto,
     @Param('expenseId') expenseId: number,
   ) {
@@ -72,7 +72,7 @@ export class ExpenseController implements OnModuleInit {
 
   @Get('/my')
   async getMyExpenses(
-    @HttpAuth() auth: SecurityService,
+    @HttpAuth() auth: AuthService,
     @Body() myExpensesDto: MyExpensesDto,
   ) {
     return this.expenseService.getMyExpenses(
