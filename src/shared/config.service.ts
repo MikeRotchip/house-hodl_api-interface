@@ -53,6 +53,10 @@ class ConfigService {
   public getKafkaUrl(): string {
     return this.getValue('KAFKA_URL', false) ?? 'localhost:9092';
   }
+
+  public getHouseServiceUrl(): string {
+    return this.getValue('HOUSE_SERVICE_URL', false) ?? 'localhost:3001';
+  }
 }
 
 const configService = new ConfigService(process.env);

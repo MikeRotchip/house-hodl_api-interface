@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { Client, ClientKafka } from '@nestjs/microservices';
-import { KafkaConfig } from '../../../configs/kafka-config';
+import { KafkaConfig } from '../../../configs';
 import { SecurityService } from '../../authentication/services';
 import { Security } from '../../authentication/decorators';
 import { HouseDto, InvitationCreateDto, InvitationUseDto } from '../dto';

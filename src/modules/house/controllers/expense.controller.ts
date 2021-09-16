@@ -1,11 +1,10 @@
 import { Client, ClientGrpc, ClientKafka } from '@nestjs/microservices';
-import { KafkaConfig } from '../../../configs/kafka-config';
+import { KafkaConfig } from '../../../configs';
 import { GrpcMetadataUtil, KafkaMetadataUtil } from '../../authentication/util';
 import {
   Body,
   Controller,
   Get,
-  Inject,
   OnModuleInit,
   Param,
   Post,
@@ -18,21 +17,30 @@ import { ExpenseCreateDto, ExpenseEditDto, MyExpensesDto } from '../dto';
 import { KafkaTopic } from '../enums';
 import { JwtAuthGuard } from '../../authentication/guards';
 import { IExpenseService } from '../interface';
+import { grpcConfig } from '../../../configs';
+import { configService } from '../../../shared/config.service';
 
 @Controller('expense')
 @UseGuards(JwtAuthGuard)
 export class ExpenseController implements OnModuleInit {
-  @Client(KafkaConfig)
-  private kafka: ClientKafka;
-
-  private expenseService: IExpenseService;
-
   constructor(
-    @Inject('EXPENSE_PACKAGE')
-    private grpc: ClientGrpc,
     private kafkaMetadata: KafkaMetadataUtil,
     private grpcMetadata: GrpcMetadataUtil,
   ) {}
+
+  @Client(KafkaConfig)
+  private kafka: ClientKafka;
+
+  @Client(
+    grpcConfig(
+      ['expense'],
+      ['src/modules/house/proto/expense.proto'],
+      configService.getHouseServiceUrl(),
+    ),
+  )
+  private grpc: ClientGrpc;
+
+  private expenseService: IExpenseService;
 
   onModuleInit(): void {
     this.expenseService =
