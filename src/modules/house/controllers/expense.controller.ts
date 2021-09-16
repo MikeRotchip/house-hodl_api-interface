@@ -11,7 +11,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { Security } from '../../authentication/decorators';
+import { HttpAuth } from '../../authentication/decorators';
 import { SecurityService } from '../../authentication/services';
 import { ExpenseCreateDto, ExpenseEditDto, MyExpensesDto } from '../dto';
 import { KafkaTopic } from '../enums';
@@ -49,35 +49,35 @@ export class ExpenseController implements OnModuleInit {
 
   @Post('/')
   async createExpense(
-    @Security() security: SecurityService,
+    @HttpAuth() auth: SecurityService,
     @Body() expenseCreateDto: ExpenseCreateDto,
   ) {
     this.kafka.emit(KafkaTopic.EXPENSE_CREATE, {
-      headers: this.kafkaMetadata.getUserAuthMetadata(security),
+      headers: this.kafkaMetadata.getUserAuthMetadata(auth),
       value: expenseCreateDto,
     });
   }
 
   @Put('/:expenseId')
   async editExpense(
-    @Security() security: SecurityService,
+    @HttpAuth() auth: SecurityService,
     @Body() expenseEditDto: ExpenseEditDto,
     @Param('expenseId') expenseId: number,
   ) {
     this.kafka.emit(KafkaTopic.EXPENSE_EDIT, {
-      headers: this.kafkaMetadata.getUserAuthMetadata(security),
+      headers: this.kafkaMetadata.getUserAuthMetadata(auth),
       value: { expenseId, ...expenseEditDto },
     });
   }
 
   @Get('/my')
   async getMyExpenses(
-    @Security() security: SecurityService,
+    @HttpAuth() auth: SecurityService,
     @Body() myExpensesDto: MyExpensesDto,
   ) {
     return this.expenseService.getMyExpenses(
       myExpensesDto,
-      await this.grpcMetadata.getUserAuthMetadata(security),
+      await this.grpcMetadata.getUserAuthMetadata(auth),
     );
   }
 }

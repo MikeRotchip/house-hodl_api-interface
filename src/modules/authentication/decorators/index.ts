@@ -1,1 +1,1 @@
-export { Security } from './auth.decorator';
+export { HttpAuth } from './auth.decorator';
