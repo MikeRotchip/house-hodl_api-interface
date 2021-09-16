@@ -9,7 +9,7 @@ You have to have a Kafka broker running and specify its url in .env files of all
 
 ## .ENV files
 
-Each service contains a `.env_example` file with sample mandatory values (you have to fill the actual values yourself :) 
+Each service contains a `.env-example` file with sample mandatory values (you have to fill the actual values yourself :) 
 Each value is accompanied by a short explanation and a sample value.
 
 ## Dependency install
@@ -20,5 +20,6 @@ $ yarn install
 
 ## Running the app
 ```bash
+$ yarn build
 $ yarn start:dev
 ```
