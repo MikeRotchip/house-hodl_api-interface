@@ -5,6 +5,7 @@ export const KafkaConfig: KafkaOptions = {
   transport: Transport.KAFKA,
   options: {
     client: { brokers: [config.getKafkaUrl()] },
-    consumer: { groupId: 'api-interface' },
+    consumer: { groupId: 'api-interface', allowAutoTopicCreation: true },
+    producer: { allowAutoTopicCreation: true },
   },
 };
