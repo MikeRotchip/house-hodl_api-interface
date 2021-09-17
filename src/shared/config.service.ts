@@ -58,8 +58,8 @@ class ConfigService {
     return this.getValue('KAFKA_URL', false) ?? 'localhost:9092';
   }
 
-  public getHouseServiceUrl(): string {
-    return this.getValue('HOUSE_SERVICE_URL', false) ?? 'localhost:3001';
+  public getHouseServicegRPCUrl(): string {
+    return this.getValue('HOUSE_SERVICE_GRPC_URL', false) ?? 'localhost:3001';
   }
 }
 

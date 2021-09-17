@@ -35,7 +35,7 @@ export class ExpenseController implements OnModuleInit {
     grpcConfig(
       ['expense'],
       ['src/modules/house/proto/expense.proto'],
-      config.getHouseServiceUrl(),
+      config.getHouseServicegRPCUrl(),
     ),
   )
   private grpc: ClientGrpc;
