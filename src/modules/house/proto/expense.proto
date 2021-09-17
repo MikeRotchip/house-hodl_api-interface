@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package expense;
+
+enum ExpensePeriod {
+    ONE_TIME = 0;
+    WEEKLY = 1;
+    MONTHLY = 2;
+}
+
+message BillingCost {
+    int32 authId = 1;
+    int32 costPercentage = 2;
+    int32 cost = 3;
+    optional Billing billing = 4;
+}
+
+message BillingCosts {
+    repeated BillingCost costs = 1;
+}
+
+message Expense {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+    int32 value = 4;
+    repeated BillingCost costSplit = 5;
+    ExpensePeriod period = 6;
+}
+
+message Expenses {
+    repeated Expense expenses = 1;
+}
+
+message Billing {
+    int32 id = 1;
+    Expense expense = 2;
+}
+
+message Billings {
+    repeated Billing billings = 1;
+}
+
+enum ExpenseMonths {
+    NEXT = 2;
+    THIS = 1;
+    LAST = 0;
+}
+
+message ExpensesByHouseDto {
+    int32 houseId = 1;
+    ExpenseMonths month = 2;
+}
+
+message MyExpensesDto {
+    ExpenseMonths month = 1;
+}
+
+service ExpenseService {
+    rpc getHouseExpenses(ExpensesByHouseDto) returns (Billings);
+    rpc getMyExpenses(MyExpensesDto) returns (BillingCosts);
+}

@@ -1,4 +1,4 @@
-import { rolesUtil, SecurityService } from '../services';
+import { rolesUtil, AuthService } from '../services';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthRole } from '../enums';
@@ -11,7 +11,7 @@ type AuthMetadata = {
 export class KafkaMetadataUtil {
   constructor(private jwtService: JwtService) {}
 
-  getUserAuthMetadata(security: SecurityService): AuthMetadata {
+  getUserAuthMetadata(security: AuthService): AuthMetadata {
     return { authorization: security.getToken() };
   }
 

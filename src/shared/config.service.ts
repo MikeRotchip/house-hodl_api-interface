@@ -27,6 +27,10 @@ class ConfigService {
     return this.getValue('MODE') === 'PROD';
   }
 
+  public getPort(): number {
+    return parseInt(this.getValue('PORT'));
+  }
+
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
       type: 'postgres',
@@ -49,8 +53,16 @@ class ConfigService {
   public getJwtSecret(): string {
     return this.getValue('JWT_SECRET');
   }
+
+  public getKafkaUrl(): string {
+    return this.getValue('KAFKA_URL', false) ?? 'localhost:9092';
+  }
+
+  public getHouseServiceGrpcUrl(): string {
+    return this.getValue('HOUSE_SERVICE_GRPC_URL', false) ?? 'localhost:3001';
+  }
 }
 
-const configService = new ConfigService(process.env);
+const config = new ConfigService(process.env);
 
-export { configService };
+export { config };

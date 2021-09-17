@@ -1,8 +1,8 @@
-import { AuthenticationService, SecurityService } from '../services';
+import { AuthenticationService, AuthService } from '../services';
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { LoginDto, RegisterDto } from '../dto';
 import { Auth } from '../entities';
-import { Security } from '../decorators';
+import { HttpAuth } from '../decorators';
 import { JwtAuthGuard } from '../guards';
 
 @Controller('auth')
@@ -23,7 +23,7 @@ export class AuthenticationController {
 
   @Get('/me')
   @UseGuards(JwtAuthGuard)
-  async getAuth(@Security() security: SecurityService): Promise<Auth> {
-    return security.getAuthEntity();
+  async getAuth(@HttpAuth() auth: AuthService): Promise<Auth> {
+    return auth.getAuthEntity();
   }
 }

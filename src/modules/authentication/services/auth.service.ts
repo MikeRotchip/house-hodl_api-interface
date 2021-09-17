@@ -11,7 +11,7 @@ enum RoleOperation {
   REMOVE,
 }
 
-export class SecurityService {
+export class AuthService {
   constructor(private auth: Auth, private token: string) {}
 
   getAuthEntity(): Auth {
